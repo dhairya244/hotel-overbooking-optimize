@@ -1,0 +1,9 @@
+hotel,period,nights,near_full_nights,share_near_full,capacity_proxy_rooms
+City Hotel,choose,184,113,0.614,225
+City Hotel,proof,243,159,0.654,225
+City Hotel,train,304,74,0.243,225
+Resort Hotel,choose,184,122,0.663,184
+Resort Hotel,proof,243,150,0.617,184
+Resort Hotel,train,304,129,0.424,184
+City Hotel,all,731,346,0.473,225
+Resort Hotel,all,731,401,0.549,184

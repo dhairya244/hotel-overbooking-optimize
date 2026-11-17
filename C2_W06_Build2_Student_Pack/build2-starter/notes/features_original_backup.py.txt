@@ -1,0 +1,35 @@
+import numpy as np
+import pandas as pd
+import notes.data as data
+
+CATEGORICAL = [
+    "hotel", "market_segment", "distribution_channel", "deposit_type",
+    "customer_type", "country", "reserved_room_type", "arrival_month", "arrival_weekday"
+]
+NUMERIC = [
+    "lead_time", "is_repeated_guest", "previous_cancellations",
+    "previous_bookings_not_canceled", "is_agent", "is_company"
+]
+FEATURES = CATEGORICAL + NUMERIC
+
+
+
+def clean(bookings):
+    df = bookings.copy()
+    df["arrival_date"] = data.arrival_date(df)
+    df["nights"] = df["stays_in_weekend_nights"] + df["stays_in_week_nights"]
+    df = df.drop_duplicates(keep='first').reset_index(drop=True)  
+    df['adr'] = np.where(df['adr'].lt(0), 0, df['adr'])
+    return df
+
+
+def add_features(bookings):
+    df = bookings.copy()
+    df["arrival_month"] = df["arrival_date"].dt.month.astype(str)
+    df["arrival_weekday"] = df["arrival_date"].dt.dayofweek.astype(str)
+    df["is_agent"] = df["agent"].notna().astype(int)
+    df["is_company"] = df["company"].notna().astype(int)
+    df["country"] = np.where(df["country"].isna(),"OTHER",df["country"])
+    for col in CATEGORICAL:
+        df[col] = df[col].astype(str)
+    return df

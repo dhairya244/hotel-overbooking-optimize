@@ -16,4 +16,4 @@ Two tables. The first is the Week 1 decisions log for the data: every cleaning o
 
 | Date | Artifact | Decision or objection | Raised by | Answer, within 15 minutes | Settled by |
 |---|---|---|---|---|---|
-| | | | | | |
+| 2026-11-17 | notebooks/03_model_logistic_regression.ipynb | Logistic regression: C = 0.01334. Chosen from 19 trials of C (0.0001 to 100) on train only, 3 forward-in-time folds, scored by log loss. Rule: lowest log loss. Cross-validated log loss 0.4065 against 0.4419 for the default C = 1. | | | |

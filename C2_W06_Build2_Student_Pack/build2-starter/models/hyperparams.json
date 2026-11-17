@@ -1,0 +1,16 @@
+{
+  "logistic regression": {
+    "model__C": 0.0133352
+  },
+  "decision tree": {
+    "model__max_depth": 6,
+    "model__min_samples_leaf": 200,
+    "model__criterion": "entropy"
+  },
+  "random forest": {
+    "model__n_estimators": 300,
+    "model__max_depth": 14,
+    "model__min_samples_leaf": 2,
+    "model__max_features": 0.2
+  }
+}

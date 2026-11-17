@@ -1,0 +1,100 @@
+{
+  "model": "decision tree",
+  "tuned_on": "train period only (2015-07-01 to 2016-06-30), 3 forward-in-time folds (TimeSeriesSplit)",
+  "scoring": "mean log loss over the folds (lower is better); AUC recorded for reference",
+  "seed": 0,
+  "settings_searched": [
+    "model__max_depth",
+    "model__min_samples_leaf",
+    "model__criterion"
+  ],
+  "stage 1 (wide) search": "RandomizedSearchCV, n_iter = 30",
+  "stage 1 (wide) space": {
+    "max_depth": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      10,
+      12,
+      16,
+      20
+    ],
+    "min_samples_leaf": [
+      10,
+      20,
+      50,
+      100,
+      200,
+      400,
+      800
+    ],
+    "criterion": [
+      "gini",
+      "entropy"
+    ]
+  },
+  "stage 2 (fine) search": "GridSearchCV over the neighbours of the stage 1 winner",
+  "stage 2 (fine) space": {
+    "max_depth": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "min_samples_leaf": [
+      100,
+      140,
+      200,
+      280,
+      400
+    ],
+    "criterion": [
+      "gini",
+      "entropy"
+    ]
+  },
+  "n_trials": 74,
+  "prefer_simpler": false,
+  "rule": "lowest log loss",
+  "lowest_log_loss_setting": {
+    "model__max_depth": 6,
+    "model__min_samples_leaf": 200,
+    "model__criterion": "entropy"
+  },
+  "chosen": {
+    "model__max_depth": 6,
+    "model__min_samples_leaf": 200,
+    "model__criterion": "entropy"
+  },
+  "chosen_log_loss": 0.4461744170205532,
+  "vs_default": {
+    "default settings": {
+      "model__max_depth": 6,
+      "model__min_samples_leaf": 100,
+      "model__criterion": "gini"
+    },
+    "chosen settings": {
+      "model__max_depth": 6,
+      "model__min_samples_leaf": 200,
+      "model__criterion": "entropy"
+    },
+    "default log loss": 0.4715292837002831,
+    "tuned log loss": 0.4461744170205532,
+    "default AUC": 0.8719143340189187,
+    "tuned AUC": 0.8798237168927994,
+    "default log loss by fold": [
+      0.37176448334081885,
+      0.6278082795778177,
+      0.4150150881822126
+    ],
+    "tuned log loss by fold": [
+      0.390214488288224,
+      0.545900819931813,
+      0.40240794284162257
+    ]
+  }
+}
