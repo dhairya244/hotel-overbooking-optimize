@@ -1,0 +1,59 @@
+{
+  "model": "logistic regression",
+  "tuned_on": "train period only (2015-07-01 to 2016-06-30), 3 forward-in-time folds (TimeSeriesSplit)",
+  "scoring": "mean log loss over the folds (lower is better); AUC recorded for reference",
+  "seed": 0,
+  "setting_searched": "model__C",
+  "stage 1 (wide) values": [
+    0.0001,
+    0.00031622776601683794,
+    0.001,
+    0.0031622776601683794,
+    0.01,
+    0.03162277660168379,
+    0.1,
+    0.31622776601683794,
+    1.0,
+    3.1622776601683795,
+    10.0,
+    31.622776601683793,
+    100.0
+  ],
+  "stage 2 (fine) values": [
+    0.01,
+    0.0133352,
+    0.0177828,
+    0.0237138,
+    0.0316228,
+    0.0421697,
+    0.0562342,
+    0.0749895,
+    0.1
+  ],
+  "n_trials": 19,
+  "prefer_simpler": false,
+  "rule": "lowest log loss",
+  "lowest_log_loss_C": 0.0316228,
+  "chosen": {
+    "model__C": 0.0316228
+  },
+  "chosen_log_loss": 0.43944027667138214,
+  "vs_default": {
+    "default C": 1.0,
+    "chosen C": 0.0316228,
+    "default log loss": 0.4460588038356878,
+    "tuned log loss": 0.43944027667138214,
+    "default AUC": 0.83349009255378,
+    "tuned AUC": 0.8294975860293121,
+    "default log loss by fold": [
+      0.37881848315585037,
+      0.48884136163110137,
+      0.4705165667201116
+    ],
+    "tuned log loss by fold": [
+      0.3729378232305964,
+      0.48091606600530595,
+      0.4644669407782441
+    ]
+  }
+}

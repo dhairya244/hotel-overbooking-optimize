@@ -1,0 +1,112 @@
+{
+  "model": "random forest",
+  "tuned_on": "train period only (2015-07-01 to 2016-06-30), 3 forward-in-time folds (TimeSeriesSplit)",
+  "scoring": "mean log loss over the folds (lower is better); AUC recorded for reference",
+  "seed": 0,
+  "settings_searched": [
+    "model__n_estimators",
+    "model__max_depth",
+    "model__min_samples_leaf",
+    "model__max_features"
+  ],
+  "stage 1 (wide) search": "RandomizedSearchCV, n_iter = 30",
+  "stage 1 (wide) space": {
+    "n_estimators": [
+      100,
+      200,
+      300,
+      500
+    ],
+    "max_depth": [
+      6,
+      8,
+      12,
+      16,
+      24,
+      null
+    ],
+    "min_samples_leaf": [
+      1,
+      2,
+      3,
+      5,
+      10,
+      20,
+      50
+    ],
+    "max_features": [
+      "sqrt",
+      0.1,
+      0.2,
+      0.3,
+      0.5
+    ]
+  },
+  "stage 2 (fine) search": "GridSearchCV over the neighbours of the stage 1 winner",
+  "stage 2 (fine) space": {
+    "n_estimators": [
+      300,
+      500
+    ],
+    "max_depth": [
+      10,
+      12,
+      14
+    ],
+    "min_samples_leaf": [
+      1,
+      2,
+      3,
+      6
+    ],
+    "max_features": [
+      0.2,
+      0.3,
+      0.4
+    ]
+  },
+  "n_trials": 101,
+  "prefer_simpler": false,
+  "rule": "lowest log loss",
+  "lowest_log_loss_setting": {
+    "model__n_estimators": 500,
+    "model__max_depth": 12,
+    "model__min_samples_leaf": 3,
+    "model__max_features": 0.3
+  },
+  "chosen": {
+    "model__n_estimators": 500,
+    "model__max_depth": 12,
+    "model__min_samples_leaf": 3,
+    "model__max_features": 0.3
+  },
+  "chosen_log_loss": 0.3923788338583835,
+  "vs_default": {
+    "default settings": {
+      "model__n_estimators": 200,
+      "model__max_depth": 12,
+      "model__min_samples_leaf": 10,
+      "model__max_features": "sqrt"
+    },
+    "chosen settings": {
+      "model__n_estimators": 500,
+      "model__max_depth": 12,
+      "model__min_samples_leaf": 3,
+      "model__max_features": 0.3
+    },
+    "default log loss": 0.41981949598935575,
+    "tuned log loss": 0.3923788338583835,
+    "default AUC": 0.8401965394515541,
+    "tuned AUC": 0.8509457037835606,
+    "default log loss by fold": [
+      0.34592985117927233,
+      0.4513494451411591,
+      0.4621791916476358
+    ],
+    "tuned log loss by fold": [
+      0.3045618219767048,
+      0.4336342579309152,
+      0.43894042166753056
+    ]
+  }
+}
