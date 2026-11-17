@@ -10,6 +10,7 @@ Every number on a slide needs a screenshot that shows the line of code and the o
 | `backtest_before_feature_change.txt` | the same command, run with the old 16-column `features.py` | The first proof run, kept because the columns changed after it (slide 5 shows both) |
 | `late_columns_auc.csv` | `python src/late_columns.py` | Runs A, B and C for `docs/COLUMNS.md` and slide 4 |
 | `full_night_share.csv` | `python src/full_night.py` | Share of nearly-full nights per hotel, for slide 10 |
+| `slide_numbers_output.txt` | `python src/slide_numbers.py > evidence/slide_numbers_output.txt` | Slide 3 (brief check, non-refundable bookings, travel-partner view), slide 6 (buffer against walks, one changed condition), and the proof run by month for the January question |
 | `tuning_<model>.json`, `tuning_<model>_trials.csv` | notebooks 03, 04 and 05 with `TUNE = True` | How each model's settings were chosen |
 
 Screenshots still to take: none are saved yet.

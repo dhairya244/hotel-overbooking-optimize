@@ -1,0 +1,87 @@
+
+======================================================================
+SLIDE 3: checking the brief's numbers
+======================================================================
+rows 119,390 | columns 32 | after cleaning 119,209 (dropped 181)
+cancel rate overall 0.370   (the brief says about 1 in 4 = 0.25)
+              bookings  cancel_rate
+hotel                              
+City Hotel       79330        0.417
+Resort Hotel     40060        0.278
+arrivals from 2015-07-01 to 2017-08-31
+
+======================================================================
+SLIDE 3: observation 1, do non-refundable bookings stay?
+======================================================================
+              bookings  cancel_rate
+deposit_type                       
+No Deposit      104641        0.284
+Non Refund       14587        0.994
+Refundable         162        0.222
+
+Non Refund: 14,587 bookings, 14,494 cancelled
+
+Non Refund by market segment:
+                bookings  cancel_rate
+market_segment                       
+Groups              9172        0.993
+Offline TA/TO       5006        0.999
+Corporate            334        0.934
+Online TA             56        0.946
+Direct                19        0.842
+
+share from Portugal: cancelled 0.976 | stayed 0.387
+
+======================================================================
+SLIDE 3: travel-partner view, rate against volume
+======================================================================
+                bookings  share_of_bookings  cancel_rate  avg_rate_of_stays_eur
+market_segment                                                                 
+Online TA          56477              0.473        0.367                113.863
+Offline TA/TO      24219              0.203        0.343                 83.422
+Groups             19811              0.166        0.611                 77.125
+Direct             12606              0.106        0.153                113.875
+Corporate           5295              0.044        0.187                 67.105
+Complementary        743              0.006        0.131                  3.079
+Aviation             237              0.002        0.219                 99.482
+Undefined              2              0.000        1.000                    NaN
+
+======================================================================
+OBSERVATION 3: what accuracy does guessing 'nobody cancels' get?
+======================================================================
+accuracy on the proof period: 0.613
+
+======================================================================
+SLIDE 6: buffer against walks on the CHOOSE period (random forest, chosen z = 0.9)
+======================================================================
+  z  rooms_held_back   cost_eur  empty_rooms  walked  walks_per_1000  ceiling_met
+0.0              0.0  887326.27         1806     396           21.29        False
+0.3              1.0  981755.35         2081     309           16.61        False
+0.6              2.0 1082985.42         2376     231           12.42        False
+0.9              3.0 1193672.87         2677     168            9.03         True
+1.2              4.0 1309477.62         2987     115            6.18         True
+1.5              5.0 1438702.09         3323      76            4.09         True
+2.0              6.7 1654214.11         3874      32            1.72         True
+2.5              8.3 1892145.62         4461      14            0.75         True
+3.0             10.0 2127307.23         5027       7            0.38         True
+4.0             13.3 2552565.86         6067       2            0.11         True
+
+======================================================================
+SLIDE 6: one changed condition (z picked again on the CHOOSE period)
+======================================================================
+as in the brief          -> z 0.9 | rooms held back 3.0 | cost EUR 1,193,673 | walks per 1,000 9.03
+a walk costs EUR 1,000   -> z 0.9 | rooms held back 3.0 | cost EUR 1,311,273 | walks per 1,000 9.03
+ceiling 5 per 1,000      -> z 1.4 | rooms held back 4.7 | cost EUR 1,388,082 | walks per 1,000 4.57
+
+======================================================================
+PANEL Q, January: the proof run by month (z fixed at 0.9, nothing re-chosen)
+======================================================================
+  month  avg_bookings_per_night  cancel_rate  oversell_per_night  walks_per_1000  cost_eur
+2017-01                    59.2        0.340                15.4            2.89     79970
+2017-02                    74.4        0.326                17.9            4.27     85764
+2017-03                    79.8        0.338                22.6            6.71    102012
+2017-04                    94.2        0.435                31.5            1.88    225628
+2017-05                   101.7        0.438                34.1            1.13    258388
+2017-06                    94.0        0.432                31.2            2.19    295729
+2017-07                    85.6        0.374                21.5            0.90    464508
+2017-08                    79.4        0.368                18.4            0.32    528113

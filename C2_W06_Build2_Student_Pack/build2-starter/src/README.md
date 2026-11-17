@@ -14,6 +14,7 @@ Feature code lives in `src/features.py` (bins, cleaning, encoding). Every script
 | `src/backtest.py` | Yours | Model Lead | Fit every method on train, choose each buffer on the choose period, run the proof once, print the method table, and save the winner to `models/chosen.joblib`, which you commit. `RUN_PROOF` switch at the top. Trains with the settings tuned in notebooks 03 / 04 / 05 |
 | `src/nightly.py` | Yours | Build Lead | Read the saved method and write the oversell table for the nights asked for, including `buffer_rooms` |
 | `src/late_columns.py` | Yours | Data Lead | The three-run AUC test in `docs/COLUMNS.md` (bin 1 on a time split, all bins on a time split, bin 1 on a random split). Writes `evidence/late_columns_auc.csv` |
+| `src/slide_numbers.py` | Yours | Build Lead | Prints the numbers for slides 3 and 6 and the proof run by month, from the data and the saved model. Trains and chooses nothing. Writes `evidence/slide_numbers_output.txt` |
 | `src/full_night.py` | Yours | Client Lead | The full-night caveat: the share of nights each hotel was nearly full, using an occupancy estimate. Writes `evidence/full_night_share.csv` |
 
 The project ends with these two commands working from a fresh Codespace. Commit `models/` after the final `backtest.py` run, so that `nightly.py` runs from a fresh checkout without retraining, which is how slide 7 runs live:
