@@ -69,7 +69,7 @@ def main():
     table.to_csv(file_path, index=False)
 
     print("Method used:", saved["method_name"], "| buffer z =", buffer)
-    print("Saved", len(table), "rows to", file_path)
+    print("Saved", len(table), "rows to", file_path.relative_to(HERE.parent))
     print(table.to_string(index=False))
 
 

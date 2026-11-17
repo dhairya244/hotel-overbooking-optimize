@@ -1,0 +1,90 @@
+bookings: train 49,108 | choose 29,482 | proof 40,619
+
+======================================================================
+LOOKUP TABLE
+======================================================================
+settings from the notebook: none saved, using defaults
+Predictions on the CHOOSE period:
+   accuracy  0.731 
+   AUC       0.703
+   precision 0.996   recall 0.271   f1 0.427
+   stays guessed right 18,586 | cancels guessed right 2,955 | wrongly said cancel 12 | missed cancels 7,929
+==============================================================================================
+Best buffer on the choose period: z = 2.5 std devs = 8.9 rooms per night on average  (cost EUR 1,880,287, walks per 1,000 9.57)
+
+======================================================================
+LOGISTIC REGRESSION
+======================================================================
+settings from the notebook: {'model__C': 0.0316228}
+Predictions on the CHOOSE period:
+   accuracy  0.737 
+   AUC       0.777
+   precision 0.844   recall 0.353   f1 0.497
+   stays guessed right 17,890 | cancels guessed right 3,838 | wrongly said cancel 708 | missed cancels 7,046
+==============================================================================================
+Best buffer on the choose period: z = 1.8 std devs = 6.3 rooms per night on average  (cost EUR 1,435,741, walks per 1,000 9.79)
+
+======================================================================
+DECISION TREE
+======================================================================
+settings from the notebook: {'model__max_depth': 3, 'model__min_samples_leaf': 10, 'model__criterion': 'gini'}
+Predictions on the CHOOSE period:
+   accuracy  0.732 
+   AUC       0.723
+   precision 0.994   recall 0.275   f1 0.431
+   stays guessed right 18,580 | cancels guessed right 2,995 | wrongly said cancel 18 | missed cancels 7,889
+==============================================================================================
+Best buffer on the choose period: z = 0.5 std devs = 1.7 rooms per night on average  (cost EUR 1,279,279, walks per 1,000 9.25)
+
+======================================================================
+RANDOM FOREST
+======================================================================
+settings from the notebook: {'model__n_estimators': 500, 'model__max_depth': 12, 'model__min_samples_leaf': 3, 'model__max_features': 0.3}
+Predictions on the CHOOSE period:
+   accuracy  0.731 
+   AUC       0.793
+   precision 0.912   recall 0.301   f1 0.452
+   stays guessed right 18,281 | cancels guessed right 3,275 | wrongly said cancel 317 | missed cancels 7,609
+==============================================================================================
+Best buffer on the choose period: z = 0.9 std devs = 3.0 rooms per night on average  (cost EUR 1,193,673, walks per 1,000 9.03)
+
+Client's flat rule: best safety margin on the choose period = 16 rooms
+Winner on the choose period: random forest
+Saved to models/chosen.joblib
+
+======================================================================
+FINAL TEST on the PROOF period (2017)
+======================================================================
+lookup table: predictions on the PROOF period
+   accuracy  0.714 
+   AUC       0.720
+   precision 0.998   recall 0.262   f1 0.415
+   stays guessed right 24,877 | cancels guessed right 4,118 | wrongly said cancel 8 | missed cancels 11,616
+==============================================================================================
+logistic regression: predictions on the PROOF period
+   accuracy  0.727 
+   AUC       0.793
+   precision 0.821   recall 0.379   f1 0.518
+   stays guessed right 23,584 | cancels guessed right 5,957 | wrongly said cancel 1,301 | missed cancels 9,777
+==============================================================================================
+decision tree: predictions on the PROOF period
+   accuracy  0.714 
+   AUC       0.726
+   precision 0.997   recall 0.262   f1 0.415
+   stays guessed right 24,874 | cancels guessed right 4,121 | wrongly said cancel 11 | missed cancels 11,613
+==============================================================================================
+random forest: predictions on the PROOF period
+   accuracy  0.715 
+   AUC       0.800
+   precision 0.933   recall 0.284   f1 0.436
+   stays guessed right 24,566 | cancels guessed right 4,474 | wrongly said cancel 319 | missed cancels 11,260
+==============================================================================================
+
+RESULT TABLE (proof period)
+                     accuracy    AUC  nightly error      buffer  z used (std devs)    cost EUR  empty rooms  walked  walks per 1,000  ceiling met  saving vs flat EUR
+method                                                                                                                                                               
+flat rule (client)        NaN    NaN          9.299  16.0 rooms                NaN  3934242.66         8179     151             6.07         True                0.00
+lookup table            0.714  0.720          6.159   9.0 rooms                2.5  3066459.64         6344      67             2.69         True           867783.02
+logistic regression     0.727  0.793          5.569   6.4 rooms                1.8  2352569.73         4819     108             4.34         True          1581672.93
+decision tree           0.714  0.726          7.956   1.7 rooms                0.5  2241081.90         4496     123             4.94         True          1693160.76
+random forest           0.715  0.800          5.990   3.1 rooms                0.9  2040111.38         4084      62             2.49         True          1894131.28

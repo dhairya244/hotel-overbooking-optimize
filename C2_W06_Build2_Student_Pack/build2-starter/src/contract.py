@@ -38,10 +38,8 @@ def nightly_table(bookings, prob):
 
     bookings: the bookings you are scoring, with the REQUIRED columns.
     prob: your probability that each booking cancels, in the same row order as bookings.
-    Returns columns: book (bookings due), 
-    cancelled (what actually happened), 
-    expected (the sum of your probabilities), 
-    spread (the standard deviation of that sum if bookings cancel independently)
+    Returns columns: book (bookings due), cancelled (what actually happened), expected (the sum of
+    your probabilities), spread (the standard deviation of that sum if bookings cancel independently)
     and stay_value (the night's average ADR x nights).
     """
     missing = [c for c in REQUIRED if c not in bookings.columns]
@@ -66,10 +64,8 @@ def nightly_table(bookings, prob):
 def night_cost(nights, oversell):
     """Score an oversell count per night against what actually happened.
 
-    nights: a table from nightly_table. o
-    versell: rooms sold beyond capacity, one value per night
-    (whole numbers, zero or more). 
-    Returns the total cost in euros, the empty rooms, the walked
+    nights: a table from nightly_table. oversell: rooms sold beyond capacity, one value per night
+    (whole numbers, zero or more). Returns the total cost in euros, the empty rooms, the walked
     guests and the walks per 1,000 arrivals, and whether the ceiling was met.
     """
     k = pd.Series(np.asarray(oversell, dtype=float), index=nights.index)
