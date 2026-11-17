@@ -4,5 +4,7 @@
     "chat.fontSize": 16,
     "debug.console.fontSize": 14,
     "terminal.integrated.fontSize": 16,
-    "markdown.preview.fontSize": 14
+    "markdown.preview.fontSize": 14,
+    "python.defaultInterpreterPath": "${workspaceFolder}/C2_W06_Build2_Student_Pack/build2-starter/.venv/bin/python",
+    "python.venvPath": "${workspaceFolder}/C2_W06_Build2_Student_Pack/build2-starter"
 }

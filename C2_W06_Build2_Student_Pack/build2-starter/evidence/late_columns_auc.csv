@@ -1,4 +1,4 @@
 run,columns,split,auc_on_proof
-A,First bin only,Time,0.835
+A,First bin only,Time,0.798
 B,All three bins,Time,1.0
-C,First bin only,Random,0.865
+C,First bin only,Random,0.829

@@ -2,7 +2,7 @@
 
 1. Bins        which columns are known when (Bin 1 = on the day of booking, Bin 2 = later, Bin 3 = leaks)
 2. Cleaning    clean_bookings(): drop bad rows, fill missing values, build arrival_date and nights
-3. Clue columns add_features(): month / weekday of arrival, is_agent / is_company, text columns as text
+3. Clue columns add_features(): text columns as text
 4. Encoding    make_preparer(): scaling and one-hot encoding
 
 notes/features_simple.py is kept untouched as a reference copy (it also has the Run A / Run B experiments).
@@ -14,13 +14,14 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 # =====================================================================
 # 1. Bins
 # =====================================================================
+# adults, children and babies are stated at booking but can be amended before arrival.
+# We keep them in Bin 1 with that caveat (docs/COLUMNS.md): dropping them cost EUR 22k on the choose period.
 bin1_features = [
     'hotel',
     'lead_time',
     'adults',
     'children',
     'babies',
-    'country',
     'market_segment',
     'distribution_channel',
     'is_repeated_guest',
@@ -30,10 +31,16 @@ bin1_features = [
     'agent',
     'company',
     'customer_type',
-    'adr',
 ]
 
+# country and adr moved here from Bin 1 (docs/DECISIONS.md):
+#   country - inside Groups and Offline TA/TO, 95-97% of cancelled bookings are PRT against 27-31% of stays,
+#             which fits a default value corrected at check-in.
+#   adr     - defined as lodging transactions / staying nights, so it can change after booking.
+# adr is still used by src/contract.py for the stay value; it is just not a model input.
 bin2_features = [
+    'country',
+    'adr',
     'arrival_date_year',
     'arrival_date_month',
     'arrival_date_week_number',
@@ -61,12 +68,10 @@ bin1_numeric_cols = [
     'babies',
     'previous_cancellations',
     'previous_bookings_not_canceled',
-    'adr'
 ]
 
 bin1_categorical_cols = [
     'hotel',
-    'country',
     'market_segment',
     'distribution_channel',
     'is_repeated_guest',
@@ -113,19 +118,17 @@ def clean_bookings(df: pd.DataFrame) -> pd.DataFrame:
     # 2. Drop negative ADR (1 row)
     data = data[data["adr"] >= 0].copy()
 
-    data = data[(data["adr"] >= 0) & (data["adr"] < 10000)]
-
-    # 4. Impute missing children with 0
+    # 3. Impute missing children with 0
     data["children"] = data["children"].fillna(0).astype(int)
 
-    # 5. Impute missing country with 'Unknown'
+    # 4. Impute missing country with 'Unknown'
     data["country"] = data["country"].fillna("Unknown")
 
-    # 6. Impute agent and company with 0
+    # 5. Impute agent and company with 0
     data["agent"] = data["agent"].fillna(0).astype(int)
     data["company"] = data["company"].fillna(0).astype(int)
 
-    # 7. Total length of stay (nights)
+    # 6. Total length of stay (nights)
     data["nights"] = data["stays_in_weekend_nights"] + data["stays_in_week_nights"]
 
     return data
@@ -138,21 +141,16 @@ clean = clean_bookings   # name used by the notebooks
 # 3. Building the clue columns
 # =====================================================================
 def add_features(df):
-    """Add the clue columns and make the text columns real text. Returns one DataFrame.
+    """Make the Bin 1 text columns real text. Returns one DataFrame.
        Works after clean_bookings() (agent / company are 0, country is 'Unknown').
-       Rare countries are not collapsed here: the models' OneHotEncoder(min_frequency=...)
-       groups them, and it learns that from TRAIN only."""
+       Rare agents and companies are not collapsed here: the models' OneHotEncoder(min_frequency=...)
+       groups them, and it learns that from TRAIN only.
+       (Arrival month / weekday and is_agent / is_company used to be built here but no model read them.
+       Arrival month and weekday also made the forest EUR 305k worse on the choose period, because
+       train holds only one year of each month.)"""
     df = df.copy()
 
-    # month and weekday of arrival, as text
-    df["arrival_month"] = df["arrival_date"].dt.month.astype(str)
-    df["arrival_weekday"] = df["arrival_date"].dt.dayofweek.astype(str)
-
-    # 1 if the booking has an agent / company. An empty cell and a 0 both mean "none".
-    df["is_agent"] = (df["agent"].fillna(0) != 0).astype(int)
-    df["is_company"] = (df["company"].fillna(0) != 0).astype(int)
-
-    # an empty country gets its own label, because those bookings behave differently
+    # an empty country gets its own label (country is Bin 2 now, but late_columns.py still reads it)
     df["country"] = df["country"].fillna("Unknown")
 
     # make all text columns real text
