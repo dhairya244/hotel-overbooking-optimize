@@ -1,2 +1,5 @@
 # macOS junk
 .DS_Store
+
+# Course pack zips (too big for GitHub)
+*.zip
