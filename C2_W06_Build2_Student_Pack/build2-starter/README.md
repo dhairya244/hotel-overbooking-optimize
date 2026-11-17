@@ -17,6 +17,21 @@ Build 2, Week 6. Your team is a revenue-science squad at RateGain, and a two-hot
 | Friday | `docs/COMPARISON.md`, `docs/ROADMAP.md`, `docs/PRESENTATION.md`, `docs/RECORDING.md` | The comparison, the roadmap, the slides and your recording |
 | Any time | `docs/RUBRIC.md` | How the 40 marks are given |
 
+## How does each of us set up the project once?
+
+Run these from the `build2-starter` folder. Every path is relative, so nothing needs editing for your own machine.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python -c "import os, sysconfig; sp = sysconfig.get_paths()['purelib']; open(os.path.join(sp, 'build2_src.pth'), 'w').write(os.path.relpath('src', sp) + '\n')"
+python -m ipykernel install --user --name build2 --display-name "build2 (.venv)"
+python src/data.py                 # downloads data/hotels.csv
+```
+
+The fourth line lets every notebook and script `import contract`, `data`, `features` and the rest from `src/`, in any cell order. The fifth registers the venv as a notebook kernel: in VS Code, choose **build2 (.venv)** from the kernel picker at the top right of a notebook. `.venv/` and `data/` are never committed.
+
 ## Which two commands must work by Friday?
 
 ```bash
@@ -25,6 +40,15 @@ python src/nightly.py --from 2017-08-18 --nights 14
 ```
 
 The first prints every method you tried on the proof period and saves the chosen one to `models/`, which you commit. The second writes the table the revenue manager reads each morning. `pytest -q` checks the client's scoring rule at any time.
+
+Two more commands make the rest of the evidence (see `evidence/README.md`):
+
+```bash
+python src/late_columns.py   # Runs A, B and C for docs/COLUMNS.md and slide 4
+python src/full_night.py     # share of nearly-full nights per hotel, for slide 10
+```
+
+Run `backtest.py` only when something has really changed, because each run uses the proof period again. Log every run in `docs/DECISIONS.md`.
 
 ## Who owns each artifact, and who has signed it?
 
